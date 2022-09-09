@@ -6,29 +6,31 @@
     $success_message = "";
 
     if($_SERVER["REQUEST_METHOD"] == "POST") {
-        if ($finduser == true) {
-            echo "";
-        }  else {
-        // Display user's input
-        echo "<h1> Registration Information </h1>";
-        echo "Username:".$usernamephp;
-        echo "<br>";
-        echo "Password:".$passwordphp;
-        echo "<br>";
-        echo "Profile picture name:".$_FILES["image"]["name"];
-        echo "<br>";
-        $distribution_hubphp = $_POST["distribution_hub"];
-        echo "Distribution hub:".$distribution_hubphp;
+        if ($finduser == false && $usernamephpErr == "" && $passwordphpErr =="" && $c_passwordphpErr == "") {
+                // Display user's input
+                echo "<h1> Registration Information </h1>";
+                echo "Username:".$usernamephp;
+                echo "<br>";
+                echo "Password:".$passwordphp;
+                echo "<br>";
+                echo "Profile picture name:".$_FILES["image"]["name"];
+                echo "<br>";
+                $distribution_hubphp = $_POST["distribution_hub"];
+                echo "Distribution hub:".$distribution_hubphp;
 
-        // File handling
-        if ($finduser == false) {
-            $file = fopen("../data/account.db", "a") or die("Unable to open file!");
-            fputs($file,($usernamephp.";".$passwordphphash.";".$_FILES["image"]["name"].";"."no".";"."no".";"."no".";"."no".";".$distribution_hubphp.";"."shipper"."\r\n"));
-            fclose($file);
-            $success_message ='Registered successfully!';
+                // Image upload
+                $target_dir = "../img-user/ ";
+                $target_file = $target_dir . basename($_FILES["image"]["name"]);
+
+                move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+
+                // File handling
+                $file = fopen("../data/account.db", "a") or die("Unable to open file!");
+                fputs($file,($usernamephp.";".$passwordphphash.";".$_FILES["image"]["name"].";"."no".";"."no".";"."no".";"."no".";".$distribution_hubphp.";"."shipper"."\r\n"));
+                fclose($file);
+                $success_message ='Registered successfully!';
         }
     }
-}
 ?>
 
 <!DOCTYPE html>
