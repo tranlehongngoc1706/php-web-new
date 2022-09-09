@@ -37,15 +37,37 @@
         if ($find_business_name == true) {
             echo "Already existed business name. Please register again.";
             echo "<br>";
-        } 
+        } else {
+            echo "";
+        }
 
         if ($find_business_address == true) {
             echo "Already existed business address. Please register again.";
             echo "<br>";
-        } 
+        } else {
+            echo "";
+        }
         
-        else {
-            
+        // Form validation
+        if (empty($_POST["business_name"])) {
+            $business_namephpErr = "Business name must not be empty";
+        } else{
+            $business_namephp = test_input($_POST["business_name"]);
+            if (strlen($_POST["business_name"]) < 5) {
+                $business_namephpErr = "Business name must contain at least 5 characters";
+        }
+
+        if (empty($_POST["business_address"])) {
+            $business_addressphpErr = "Business address must not be empty";
+        } else{
+            $business_addressphp = test_input($_POST["business_address"]);
+            if (strlen($_POST["business_address"]) < 5) {
+                $business_namephpErr = "Business address must contain at least 5 characters";
+            } 
+        }
+
+        // File handling
+        if ($finduser == false && $find_business_address == false && $find_business_name == false && $business_addressphpErr == "" && $business_namephpErr == "" && $usernamephpErr == "" && $passwordphpErr =="" && $c_passwordphpErr == "") {          
             // Display user's input
             echo "<h1> Registration Information </h1>";
             echo "Username:".$usernamephp;
@@ -54,48 +76,30 @@
             echo "<br>";
             echo "Profile picture name:". basename($_FILES["image"]["name"]);
             echo "<br>";
+            echo "Business name:".$business_namephp;
+            echo "<br>";
+            echo "Business address:".$business_addressphp;
+            echo "<br>";
 
-            // Form validation
-            if (empty($_POST["business_name"])) {
-                $business_namephpErr = "Business name must not be empty";
-            } else{
-                $business_namephp = test_input($_POST["business_name"]);
-                if (strlen($_POST["business_name"]) < 5) {
-                    $business_namephpErr = "Business name must contain at least 5 characters";
-                } 
-                else {
-                    echo "Business name:".$business_namephp;
-                    echo "<br>";
-                }
-            }
-
-            if (empty($_POST["business_address"])) {
-                $business_addressphpErr = "Business address must not be empty";
-            } else{
-                $business_addressphp = test_input($_POST["business_address"]);
-                if (strlen($_POST["business_address"]) < 5) {
-                    $business_namephpErr = "Business address must contain at least 5 characters";
-                } 
-                else {
-                    echo "Business address:".$business_addressphp;
-                    echo "<br>";
-                }
-            }
+            // Image upload
+            $target_dir = "../img-user/ ";
+            $target_file = $target_dir . basename($_FILES["image"]["name"]);
+                
+            move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);      
 
             // File handling
-            if ($finduser == false && $find_business_address == false && $find_business_name == false) {
-                $file = fopen("../data/account.db", "a") or die("Unable to open file!");
-                fputs($file,($usernamephp.";".$passwordphphash.";".basename($_FILES['image']['name']).";".$business_namephp.";".$business_addressphp.";"."no".";"."no".";"."no".";"."vendor"."\r\n"));
-                fclose($file);
-                    
-                $file2 = fopen("../data/business_name.db", "a+");
-                fputs($file2,($business_namephp."\r\n"));
-                fclose($file2);
+            $file = fopen("../data/account.db", "a") or die("Unable to open file!");
+            fputs($file,($usernamephp.";".$passwordphphash.";".basename($_FILES['image']['name']).";".$business_namephp.";".$business_addressphp.";"."no".";"."no".";"."no".";"."vendor"."\r\n"));
+            fclose($file);
+                
+            $file2 = fopen("../data/business_name.db", "a+");
+            fputs($file2,($business_namephp."\r\n"));
+            fclose($file2);
 
-                $file3 = fopen("../data/business_address.db", "a+");
-                fputs($file3,($business_addressphp."\r\n"));
-                fclose($file3);
-                $success_message ='Registered successfully!';
+            $file3 = fopen("../data/business_address.db", "a+");
+            fputs($file3,($business_addressphp."\r\n"));
+            fclose($file3);
+            $success_message ='Registered successfully!';
             }
         }
     }
