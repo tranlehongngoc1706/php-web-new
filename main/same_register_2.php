@@ -1,6 +1,9 @@
 <?php
     $usernamephpErr = $passwordphpErr = $c_passwordphpErr = "";
     $usernamephp = $passwordphp = $passwordphphash = $c_passwordphp = $target_file = "";
+    GLOBAL $usernamephpErr;
+    GLOBAL $passwordErr;
+    GLOBAL $c_passwordphpErr;
 
     if($_SERVER["REQUEST_METHOD"] == "POST") {
         // Check global uniqueness
@@ -18,16 +21,10 @@
         }
         fclose($myfile);
 
-        // Image upload
         if ($finduser == true) {
             echo "Already existed username. Please register again";
             echo "<br>";
-        }  else {
-        $target_dir = "../img-user/ ";
-        $target_file = $target_dir . basename($_FILES["image"]["name"]);
-        
-        move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
-        }       
+        }  
 
         // Form validation
         function test_input($data) {
@@ -58,7 +55,7 @@
         }
         else{
             $passwordphp = test_input($_POST["password"]);
-            if (!preg_match("/[a-zA-z0-9]+[!|@|#|$|%|^|&|*]+$/", $passwordphp)) {
+            if (!preg_match("/[a-z]+[A-Z]+[0-9]+[!|@|#|$|%|^|&|*]+$/", $passwordphp)) {
                 $passwordErr = "Password must contain  must contain at least one upper case letter, at least one lower case letter, at least one digit, at least one special letter in the set !@#$%^&* and NO other kind of characters";
             }
             elseif (strlen($_POST["password"]) < 8) {
@@ -85,5 +82,4 @@
             }
         }
         }
-    
 ?>
