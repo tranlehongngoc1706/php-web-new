@@ -7,16 +7,6 @@
     $success_message = "";
 
     if($_SERVER["REQUEST_METHOD"] == "POST") {
-     
-                // Display user's input
-                echo "<h1> Registration Information </h1>";
-                echo "Username:".$usernamephp;
-                echo "<br>";
-                echo "Password:".$passwordphp;
-                echo "<br>";
-                echo "Profile picture name:".$_FILES["image"]["name"];
-                echo "<br>";
-        
                 // Form validation
                 if (empty($_POST["your_name"])) {
                     $your_namephpErr = "Your name must not be empty";
@@ -25,10 +15,6 @@
                     if (strlen($_POST["your_name"]) < 5) {
                         $your_namephpErr = "Your name must contain at least 5 characters";
                     } 
-                    else {
-                        echo "Your name:".$your_namephp;
-                        echo "<br>";
-                    }
                 }
         
                 if (empty($_POST["your_address"])) {
@@ -38,20 +24,35 @@
                     if (strlen($_POST["your_address"]) < 5) {
                         $your_namephpErr = "Your address must contain at least 5 characters";
                     } 
-                    else {
-                        echo "Your address:".$your_addressphp;
-                        echo "<br>";
-                    }
                 }
-                    if ($finduser == false) {
+
+                if ($finduser == false && $usernamephpErr == "" && $passwordphpErr == "" && $c_passwordphpErr == "" && $your_addressphpErr == "" && $your_addressphpErr == "") {
+                    // Display user's input
+                    echo "<h1> Registration Information </h1>";
+                    echo "Username:".$usernamephp;
+                    echo "<br>";
+                    echo "Password:".$passwordphp;
+                    echo "<br>";
+                    echo "Profile picture name:".$_FILES["image"]["name"];
+                    echo "<br>";
+                    echo "Your name:".$your_namephp;
+                    echo "<br>";
+                    echo "Your address:".$your_addressphp;
+                    echo "<br>";
+
+                    // Image upload
+                    $target_dir = "../img-user/ ";
+                    $target_file = $target_dir . basename($_FILES["image"]["name"]);
+
+                    move_uploaded_file($_FILES["image"]["tmp_name"], $target_file);
+
                     // File handling
                     $file = fopen("../data/account.db", "a") or die("Unable to open file!");
                     fputs($file,($usernamephp.";".$passwordphphash.";".$_FILES['image']['name'].";"."no".";"."no".";".$your_namephp.";".$your_addressphp.";"."no".";"."customer"."\r\n"));
                     fclose($file);
                     $success_message ='Registered successfully!';
-                }
-            
-    }
+                    }
+                }       
 ?>
 
 <!DOCTYPE html>
