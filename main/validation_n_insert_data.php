@@ -39,8 +39,8 @@ if($_SERVER["REQUEST_METHOD"] == "POST") {
     }
     else{
         $description = test_input($_POST["description"]);
-        if (strlen($_POST["description"]) > 50) {
-            $descriptionErr = "Description must contain at most 50 characters";
+        if (strlen($_POST["description"]) > 500) {
+            $descriptionErr = "Description must contain at most 500 characters";
         }
     }
 
