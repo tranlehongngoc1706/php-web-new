@@ -77,7 +77,7 @@ $featuredProductsCount = 0;
             <div class='each_product'>
                 <a class="link-product"href='..\main\detail.php?id=<?=$rec[1] ?>'><img class='image' src='../img-product/<?=$rec[2]?>' alt = 'logo'>
                     <h3><?=$rec[3] ?></h3>
-                    <h3><?=$rec[4] ?></h3>
+                    <h3>$<?=$rec[4] ?></h3>
                 </a>
             </div>
         <?php } ?>
