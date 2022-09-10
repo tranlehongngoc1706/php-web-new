@@ -69,7 +69,9 @@
 #cart table tbody  td{
     font-size: 13px;
 }
-
+#cart tbody{
+  height: 40vh;
+}
 
 #cart-add{
     display: flex;
