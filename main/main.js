@@ -40,6 +40,7 @@ function addToCartClicked(event){
   var old_cart = JSON.parse(localStorage.getItem('Cart'));
   old_cart.push(cart);
   localStorage.setItem('Cart',JSON.stringify(old_cart))
+  window.alert("Item has been added to")
 }
 
 
