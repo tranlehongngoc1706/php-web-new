@@ -6,6 +6,34 @@
     $featuredProducts = readFeaturedProducts();
     $featuredProductsCount = 0;
 ?>
+<?php
+                
+                if(isset($_POST['submit'])){
+                $id_order = $_POST['id']; 
+                $input = fopen('../data/order.csv', 'r');  //open for reading
+                $output = fopen('../data/temporary.csv', 'a'); //open for writing
+                $new_status= $_POST['status'];
+                $count = 0;
+                while( false !== ( $data = fgetcsv($input) )){  //read each line as an array
+                    //modify data here
+                    if ($new_status[$count] != $data[7] && $new_status[$count] != 'status'){
+                       //Replace line here
+                       $data[7] = $new_status[$count];
+                    }
+                    $count++;
+                    //write modified data to new file
+                    fputcsv( $output, $data);
+            
+                }
+                //close both files
+                fclose( $input );
+                fclose( $output );
+                //clean up
+                unlink('../data/order.csv');// Delete obsolete BD
+                rename('../data/temporary.csv', '../data/order.csv'); 
+                header("Location: shipper.php");
+            }
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -84,32 +112,6 @@
 <?php
         require_once('footer.php')
 ?>
-<?php
-                
-    if(isset($_POST['submit'])){
-    $id_order = $_POST['id']; 
-    $input = fopen('../data/order.csv', 'r');  //open for reading
-    $output = fopen('../data/temporary.csv', 'a'); //open for writing
-    $new_status= $_POST['status'];
-    $count = 0;
-    while( false !== ( $data = fgetcsv($input) )){  //read each line as an array
-        //modify data here
-        if ($new_status[$count] != $data[7] && $new_status[$count] != 'status'){
-           //Replace line here
-           $data[7] = $new_status[$count];
-        }
-        $count++;
-        //write modified data to new file
-        fputcsv( $output, $data);
 
-    }
-    //close both files
-    fclose( $input );
-    fclose( $output );
-    //clean up
-    unlink('../data/order.csv');// Delete obsolete BD
-    rename('../data/temporary.csv', '../data/order.csv'); 
-}
-?>
 </body>
 </html>
