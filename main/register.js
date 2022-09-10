@@ -102,7 +102,7 @@ function checkUsername(field) {
 }
 
 function checkPassword(field) {
-    if (/[a-zA-z0-9]+[!|@|#|$|%|^|&|*]+$/.test(field.value)) {
+    if (/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!|@|#|$|%|^|&|*])/.test(field.value)) {
         setValid(field);
         return true;
     } else {
