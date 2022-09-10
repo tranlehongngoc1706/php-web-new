@@ -55,7 +55,7 @@
         }
         else{
             $passwordphp = test_input($_POST["password"]);
-            if (!preg_match("/[a-z]+[A-Z]+[0-9]+[!|@|#|$|%|^|&|*]+$/", $passwordphp)) {
+            if (!preg_match("/(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!|@|#|$|%|^|&|*])/", $passwordphp)) {
                 $passwordErr = "Password must contain  must contain at least one upper case letter, at least one lower case letter, at least one digit, at least one special letter in the set !@#$%^&* and NO other kind of characters";
             }
             elseif (strlen($_POST["password"]) < 8) {
