@@ -92,7 +92,7 @@
         <div class="content">
         <form action="" method="post" enctype="multipart/form-data">
              <div class="profile-image">
-                <?php echo '<img src="../img-user/ '.$avatar.'" alt="logo">'; ?>
+                <?php echo '<img src="../img-user/'.$avatar.'" alt="logo">'; ?>
             </div>
             <div class="info">
                 <p>Username:   <?php echo $user?> </p>
