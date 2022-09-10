@@ -44,7 +44,7 @@
                         <tr>
                             <td>$id</td>
                             <td>$products</td>
-                            <td>$total</td>
+                            <td>$$total</td>
                             <td>$name</td>
                             <td>$adress</td>
                             <td>$order_time</td>
