@@ -4,12 +4,7 @@
     if(!isset($_SESSION['user'])){
 		header("location: login.php");	exit();
 	}
-/*if(isset($_POST['img_submit'])){
-    $img_name=$_FILES['img_upload']['name'];
-    $tmp_img_name=$_FILES['img_upload']['tmp_name'];
-    $folder='D:\CODING\logintext\img\ ';
-    move_uploaded_file($tmp_img_name,$folder.$img_name);
-}*/
+
     global $avatar;
     global $role;
     global $business_name;
@@ -33,25 +28,13 @@
     if(isset($_POST['change_avatar'])){
         $new_avatar = $_FILES["new_avatar"]["name"];
         $tmp_img_name=$_FILES["new_avatar"]["tmp_name"];
-        $folder='..\img-user\ ';
+        $folder='..\img-user\/';
         move_uploaded_file($tmp_img_name,$folder.$new_avatar);
         $url = '../data/account.db';
         $data= file_get_contents($url);
         $strreplace = str_replace($avatar,$new_avatar,$data);
         file_put_contents($url,$strreplace);
-        /*$files = "datanew.txt"; 
-        $file = fopen('data.txt', 'a+');
-        $lines = file($files);
-        while(!feof($file)){
-            $line = fgets($file);
-            $array = explode(";",$line);
-            $count += 1;
-        if(trim($array[0]) == $user){
-            $new ="$array[0];$array[1];$new_avatar";
-            $lines[$count] = $new;
-            file_put_contents($files, implode("\n", $lines));
-            break;
-            }}*/
+        header("Refresh:0; url=my_account.php");
     }
 
 
@@ -59,16 +42,6 @@
 		unset($_SESSION['user']);
 		header("location: login.php");	exit();
 	}
-
-	/*
-
-
-	echo $_SESSION['email'];
-	echo $_SESSION['user'];
-	
-  echo $role;
-  echo $avatar;
-  echo $_SESSION['role'];*/
 ?>
 
 
